@@ -1,0 +1,11 @@
+name: TPRegions
+version: 2.5.0
+author: GoldenGamerLP
+api-version: 1.13
+main: de.alex.advancedspawnsystem.main.Main
+depend: [WorldGuardEvents]
+
+commands:
+   tpregion:
+      description: Modify and edit locations.
+      aliases: [spawn, tpregions]
