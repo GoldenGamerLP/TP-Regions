@@ -5,28 +5,34 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.alex.advancedspawnsystem.ConfigManager.ConfigManager;
 import de.alex.advancedspawnsystem.commands.RegionCommand;
+import de.alex.advancedspawnsystem.tabcompleter.TabCompleter;
 
 public class Main extends JavaPlugin{
 	ConfigManager handler = new ConfigManager();
 	
 	public void onEnable() {
+		PluginManager pm = Bukkit.getPluginManager();
 		
 		instance = this;
 		createFiles();
 		load();
         check();	
+        pm.registerEvents(new RegionCommand(), this);
+        
         
         
        
 	}
 	
 	
-    private void registerCommands() {
-    	 getCommand("tpregion").setExecutor(new RegionCommand());
+    private void register() {
+    	 this.getCommand("tpregion").setExecutor(new RegionCommand());
+    	 this.getCommand("tpregion").setTabCompleter(new TabCompleter());
 		
 	}
 
@@ -43,7 +49,7 @@ public class Main extends JavaPlugin{
 			Bukkit.getConsoleSender().sendMessage("§8[§3TPRegion§8] §aPlugin was seccusfully enabled! §aV: " + getDescription().getVersion() + " §aBy: " + getDescription().getAuthors());
 			//
 			//Only register the cmd when the .yml files where succesfully generated.
-			registerCommands();		
+			register();		
 			//
 			
 		} else {
@@ -61,19 +67,19 @@ public class Main extends JavaPlugin{
     	cf.addDefault("General.Messages.Succes","&aDu wurdest erfolgreich zum Spawn des Ortes teleportiert.");
     	cf.addDefault("General.Messages.Fail","&cDu konntest nicht zu einem Spawn des Ortes teleportiert werden! Bitte benarchitige ein Teammitglied!");
     	cf.addDefault("General.Messages.NoRegion","&cDu bist in keiner Region!");
-    	cf.addDefault("General.Messages.Worlds","&7Es wurde für die Welt &3{world} &7eine Konnfiguration gefunden!");
-    	cf.addDefault("General.Messages.WorldsPlural","&7Es wurden für die Welten &3{world} &7eine Konfiguration gefunden!");
-    	cf.addDefault("General.Messages.NoneWorlds","&7Es wurden keine Konfigurierten Welten gefunden!");
     	cf.addDefault("General.Messages.Reload","&7Die Config & Locations wurden &aerfolgreich &7neugeladen in &3{Time} &7Ms.");
     	cf.addDefault("General.Messages.Use","Help: /tpregions <set/spawn/reload/list/search/help>");
     	cf.addDefault("General.Messages.Wait","&7Du wirst in {Time} Sekunden teleportiert!");
     	cf.addDefault("General.Messages.CooldownMinSec","&7Du musst noch {Min} Minuten und {Sec} Sekunden warten bevor du nochmal zum Spawn kommst!");
     	cf.addDefault("General.Messages.CooldownSec","&7Du musst noch {Sec} Sekunden warten bevor du nochmal zum Spawn kommst!");
+    	cf.addDefault("General.Messages.FoundRegions","§7Found Spawn set Regions:");
+    	cf.addDefault("General.Messages.NoPermission", "§cYou have no Permission to this Command!");
     	//General.Options section
     	cf.addDefault("General.Options.CooldownBoolean", true);
     	cf.addDefault("General.Options.Cooldown", 600);
     	cf.addDefault("General.Options.Animation", true);
     	cf.addDefault("General.Options.UseEffects", true);
+    	cf.addDefault("General.Options.TabComplete", true);
     	//Try to save, because sometimes the config does not regenerate on the first time
     	try {
 			cf.save(config);

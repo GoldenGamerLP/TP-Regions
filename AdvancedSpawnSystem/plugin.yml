@@ -1,5 +1,5 @@
 name: TPRegions
-version: 2.5.0
+version: 3.0.0
 author: GoldenGamerLP
 api-version: 1.13
 main: de.alex.advancedspawnsystem.main.Main
@@ -8,4 +8,43 @@ depend: [WorldGuardEvents]
 commands:
    tpregion:
       description: Modify and edit locations.
-      aliases: [spawn, tpregions]
+      aliases: [spawn]
+permissions:
+  TPRegions.*:
+   description: Allow all TPRegions actions
+   default: op
+  TPRegions.set:
+   description: To set a Spawnpoint in a region.
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.spawn:
+   description: To go to a Spawn without a cooldown or Animation.
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.reload:
+   description: To Reload the Location and Config file.
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.list:
+   description: To see all set Region Spawn.
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.search:
+   description: To search for a region if there are to many Regions spawns.
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.help:
+   description: To see the Commands of TPRegions
+   default: op
+   children:
+     TPRegions.*: true
+  TPRegions.TabAutocomplete:
+   description: To autocomplete some Commands and Region Spawns.
+   default: op
+   children:
+     TPRegions.*: true
